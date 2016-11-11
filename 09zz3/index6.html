@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <script type="text/javascript">
+    	var p = null;
+		var iLast = 2,
+			MAX = 20;
+		var up = null,
+			down = null,
+			offset = 50;
+		var t = null;
+    	
+    	if(window.plus) {
+			plusReady();
+		} else {
+			document.addEventListener("plusready", plusReady, false);
+		}
+		
+		document.addEventListener("DOMContentLoaded", function() {
+			up = document.getElementById("up");
+			down = document.getElementById("down");
+			offset = up.offsetHeight / 2;
+		}, false);
+		
+		function plusReady() {
+			// 锁定只能竖屏显示
+			plus.screen.lockOrientation("portrait-primary");
+			
+			plus.accelerometer.watchAcceleration(function(a) {
+				if((Math.abs(a.xAxis) + Math.abs(a.yAxis) + Math.abs(a.zAxis) > MAX)) {
+					p = plus.audio.createPlayer("_www/audio/shake.wav");
+					p.play();
+					setTimeout(function() {
+						// Change background image
+						var index = Math.round(Math.random() * 3 + 1);
+						if(iLast == index) {
+							index++;
+							if(index > 4) {
+								index = 1;
+							}
+						}
+						document.body.style.backgroundImage = "url(../img/shake/" + index + ".jpg)";
+						iLast = index;
+						// Stop play audio
+						p.stop();
+						delete p;
+						p = null;
+					}, 2000);
+					
+				}
+				
+				
+				
+			}, function(e) {
+				alert( "Watch failed: "+e.message );
+			}, {
+				frequency: 100
+			})
+		}
+    
+    	
+  
+    </script>
+</head>
+<body>
+	
+</body>
+</html>

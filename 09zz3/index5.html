@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <script type="text/javascript">
+    	var wid = null;
+   		document.addEventListener('plusready', function(){
+   			//console.log("所有plus api都应该在此事件发生后调用，否则会出现plus is undefined。"
+   			document.getElementById("btn").onclick = function(){
+   				watchPos();
+   			}
+   			document.getElementById("btnC").onclick =function(){
+   				clearPos(wid);
+   			}
+
+   		});
+   		function watchPos(){
+   			wid = plus.geolocation.watchPosition(function(pos){
+   				console.log(pos.address.street);
+   			},function(error){
+   				var ecode = error.code;
+   				var eMessage = error.message;
+   				alert(eMessage);
+   			},{
+   				enableHighAccuracy:true,
+   			})
+   		}
+   		function clearPos(wid){
+   			plus.geolocation.clearWatch(wid);
+   			wid = null;
+   		}
+   		
+    </script>
+</head>
+<body>
+	<div id="showDiv"></div>
+	<button id="btn">监听当前位置信息</button>
+	<button id="btnC">清除当前位置信息</button>
+</body>
+</html>

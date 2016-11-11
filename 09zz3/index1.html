@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <style>
+    	html,body{
+    		width: 100%;
+    		height: 100%;
+    		margin: 0;
+    		padding: 10px;
+    		border: 0;
+    		box-sizing: border-box;
+    	}
+    	#showDiv{
+    		margin: 10px;
+    		border: 1px dotted #000;
+    		min-height: 100px;
+    	}
+    	button{
+    		display: inline-block;
+    		margin:20px auto;
+    		height: 60px;
+    		width: 200px;
+    		background-color: green;
+    		color: yellow;
+    		font-size: 17px;
+    		line-height: 60px;
+    	}
+    </style>
+</head>
+<body>
+	<fieldset>
+		<legend>加速度测试</legend>
+		<div id="showDiv">
+			
+		</div>
+		<button id="btn">获取我们当前加速度</button>
+	</fieldset>
+	<script type="text/javascript" src="js/jquery-1.11.0.js" ></script>
+	<script>
+		function sucFuc( acceleration ){
+			var tmpStr='';
+			tmpStr += "X轴加速度：--" + acceleration.xAxis + "<br />";
+    		tmpStr += "Y轴加速度：--" + acceleration.yAxis + "<br />";
+    		tmpStr += "Z轴加速度：--" + acceleration.zAxis + "<br />";
+    		tmpStr += "<hr />";
+    		$("#showDiv").append(tmpStr)
+    	}
+    	function errFuc( error ){
+    		var code = error.code; // 错误编码
+			var message = error.message; // 错误描述信息
+			$("#showDiv").append(code + "---：：：：：--" + message);
+    	}
+   		document.addEventListener('plusready', function(){
+   			
+   			$("#btn").click(function(){
+   				plus.accelerometer.watchAcceleration(sucFuc, errFuc, {
+   					frequency:1000
+   				})
+   			})
+   		
+   		});
+
+	</script>
+</body>
+</html>
